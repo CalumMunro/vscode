@@ -161,7 +161,6 @@ async function main(server: Server, initData: ISharedProcessInitData, configurat
 	let telemetryService: ITelemetryService;
 	instantiationService.invokeFunction(accessor => {
 		const services = new ServiceCollection();
-		const environmentService = accessor.get(IEnvironmentService);
 		const { appRoot, extensionsPath, extensionDevelopmentLocationURI, isBuilt, installSourcePath } = environmentService;
 		const telemetryLogService = new FollowerLogService(loggerClient, new SpdLogService('telemetry', environmentService.logsPath, initData.logLevel));
 		telemetryLogService.info('The below are logs for every telemetry event sent from VS Code once the log level is set to trace.');

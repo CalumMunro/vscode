@@ -76,6 +76,34 @@ function getCLIPath(execPath: string, appRoot: string, isBuilt: boolean): string
 
 export interface INativeEnvironmentService extends IEnvironmentService {
 	args: ParsedArgs;
+
+	appRoot: string;
+	execPath: string;
+
+	mainIPCHandle: string;
+	sharedIPCHandle: string;
+
+	nodeCachedDataDir?: string;
+
+	installSourcePath: string;
+
+	extensionsPath?: string;
+	builtinExtensionsPath: string;
+
+	driverHandle?: string;
+	driverVerbose: boolean;
+
+	disableUpdates: boolean;
+
+	backupWorkspacesPath: string;
+
+	appSettingsHome: URI;
+	userDataPath: string;
+
+	globalStorageHome: string;
+	workspaceStorageHome: string;
+
+	machineSettingsResource: URI;
 }
 
 export class EnvironmentService implements INativeEnvironmentService {

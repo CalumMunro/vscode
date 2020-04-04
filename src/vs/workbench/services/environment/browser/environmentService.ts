@@ -250,33 +250,9 @@ export class BrowserWorkbenchEnvironmentService implements IWorkbenchEnvironment
 
 	//#region TODO MOVE TO NODE LAYER
 
-	get disableUpdates(): boolean { return false; }
-	get extensionsPath(): string | undefined { return undefined; }
-
-	mainIPCHandle!: string;
-	sharedIPCHandle!: string;
-
-	nodeCachedDataDir?: string;
-
-	driverHandle?: string;
-	driverVerbose!: boolean;
-
-	installSourcePath!: string;
-
-	builtinExtensionsPath!: string;
-
-	globalStorageHome!: string;
-	workspaceStorageHome!: string;
-
-	backupWorkspacesPath!: string;
-
-	machineSettingsResource!: URI;
-
 	userHome!: string;
-	userDataPath!: string;
-	appRoot!: string;
-	appSettingsHome!: URI;
-	execPath!: string;
+
+	serviceMachineIdResource?: URI;
 
 	//#endregion
 }

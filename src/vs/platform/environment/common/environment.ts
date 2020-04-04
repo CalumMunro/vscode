@@ -23,13 +23,7 @@ export interface IEnvironmentService {
 
 	_serviceBrand: undefined;
 
-	execPath: string;
-	appRoot: string;
-
 	userHome: string;
-	userDataPath: string;
-
-	appSettingsHome: URI;
 
 	// user roaming data
 	userRoamingDataHome: URI;
@@ -44,23 +38,15 @@ export interface IEnvironmentService {
 	userDataSyncHome: URI;
 	sync: 'on' | 'off';
 
-	machineSettingsResource: URI;
-
-	globalStorageHome: string;
-	workspaceStorageHome: string;
-
 	backupHome: URI;
-	backupWorkspacesPath: string;
 
 	untitledWorkspacesHome: URI;
 
 	isExtensionDevelopment: boolean;
 	disableExtensions: boolean | string[];
-	builtinExtensionsPath: string;
-	extensionsPath?: string;
 	extensionDevelopmentLocationURI?: URI[];
 	extensionTestsLocationURI?: URI;
-	extensionEnabledProposedApi?: string[] | undefined;
+	extensionEnabledProposedApi?: string[];
 	logExtensionHostCommunication?: boolean;
 
 	debugExtensionHost: IExtensionHostDebugParams;
@@ -70,17 +56,6 @@ export interface IEnvironmentService {
 	logsPath: string;
 	logLevel?: string;
 	verbose: boolean;
-
-	mainIPCHandle: string;
-	sharedIPCHandle: string;
-
-	nodeCachedDataDir?: string;
-
-	installSourcePath: string;
-	disableUpdates: boolean;
-
-	driverHandle?: string;
-	driverVerbose: boolean;
 
 	serviceMachineIdResource?: URI;
 
