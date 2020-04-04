@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import { EnvironmentService } from 'vs/platform/environment/node/environmentService';
-import { IWorkbenchEnvironmentService } from 'vs/workbench/services/environment/common/environmentService';
+import { IWorkbenchEnvironmentService, IEnvironmentConfiguration } from 'vs/workbench/services/environment/common/environmentService';
 import { memoize } from 'vs/base/common/decorators';
 import { URI } from 'vs/base/common/uri';
 import { Schemas } from 'vs/base/common/network';
@@ -15,7 +15,7 @@ import { INativeWindowConfiguration } from 'vs/platform/windows/node/window';
 
 export interface INativeWorkbenchEnvironmentService extends IWorkbenchEnvironmentService {
 
-	readonly configuration: INativeWindowConfiguration;
+	readonly configuration: INativeEnvironmentConfiguration;
 
 	readonly disableCrashReporter: boolean;
 
@@ -24,6 +24,8 @@ export interface INativeWorkbenchEnvironmentService extends IWorkbenchEnvironmen
 	readonly log?: string;
 	readonly extHostLogsPath: URI;
 }
+
+export interface INativeEnvironmentConfiguration extends IEnvironmentConfiguration, INativeWindowConfiguration { }
 
 export class NativeWorkbenchEnvironmentService extends EnvironmentService implements INativeWorkbenchEnvironmentService {
 
@@ -52,7 +54,7 @@ export class NativeWorkbenchEnvironmentService extends EnvironmentService implem
 	get extHostLogsPath(): URI { return URI.file(join(this.logsPath, `exthost${this.configuration.windowId}`)); }
 
 	constructor(
-		readonly configuration: INativeWindowConfiguration,
+		readonly configuration: INativeEnvironmentConfiguration,
 		execPath: string
 	) {
 		super(configuration, execPath);
