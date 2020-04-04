@@ -7,12 +7,12 @@ import { localize } from 'vs/nls';
 import product from 'vs/platform/product/common/product';
 import * as path from 'vs/base/common/path';
 import * as semver from 'semver-umd';
-
 import { ServiceCollection } from 'vs/platform/instantiation/common/serviceCollection';
 import { SyncDescriptor } from 'vs/platform/instantiation/common/descriptors';
 import { IInstantiationService } from 'vs/platform/instantiation/common/instantiation';
 import { InstantiationService } from 'vs/platform/instantiation/common/instantiationService';
-import { IEnvironmentService, ParsedArgs } from 'vs/platform/environment/common/environment';
+import { IEnvironmentService } from 'vs/platform/environment/common/environment';
+import { ParsedArgs } from 'vs/platform/environment/node/environment';
 import { EnvironmentService } from 'vs/platform/environment/node/environmentService';
 import { IExtensionManagementService, IExtensionGalleryService, IGalleryExtension, ILocalExtension } from 'vs/platform/extensionManagement/common/extensionManagement';
 import { ExtensionManagementService } from 'vs/platform/extensionManagement/node/extensionManagementService';
@@ -334,15 +334,12 @@ export async function main(argv: ParsedArgs): Promise<void> {
 		const { appRoot, extensionsPath, extensionDevelopmentLocationURI, isBuilt, installSourcePath } = envService;
 
 		const services = new ServiceCollection();
-
-
 		services.set(IRequestService, new SyncDescriptor(RequestService));
 		services.set(IExtensionManagementService, new SyncDescriptor(ExtensionManagementService));
 		services.set(IExtensionGalleryService, new SyncDescriptor(ExtensionGalleryService));
 
 		const appenders: AppInsightsAppender[] = [];
-		if (isBuilt && !extensionDevelopmentLocationURI && !envService.args['disable-telemetry'] && product.enableTelemetry) {
-
+		if (isBuilt && !extensionDevelopmentLocationURI && !envService.disableTelemetry && product.enableTelemetry) {
 			if (product.aiConfig && product.aiConfig.asimovKey) {
 				appenders.push(new AppInsightsAppender(eventPrefix, null, product.aiConfig.asimovKey, logService));
 			}

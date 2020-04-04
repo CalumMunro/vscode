@@ -97,6 +97,8 @@ export class BrowserWorkbenchEnvironmentService implements IWorkbenchEnvironment
 	@memoize
 	get logsPath(): string { return this.options.logsPath.path; }
 
+	get logLevel(): string | undefined { return this.payload?.get('logLevel'); }
+
 	@memoize
 	get logFile(): URI { return joinPath(this.options.logsPath, 'window.log'); }
 
@@ -117,6 +119,8 @@ export class BrowserWorkbenchEnvironmentService implements IWorkbenchEnvironment
 
 	@memoize
 	get userDataSyncLogResource(): URI { return joinPath(this.options.logsPath, 'userDataSync.log'); }
+
+	get sync(): 'on' | 'off' { return 'on'; }
 
 	@memoize
 	get keybindingsResource(): URI { return joinPath(this.userRoamingDataHome, 'keybindings.json'); }
@@ -189,6 +193,8 @@ export class BrowserWorkbenchEnvironmentService implements IWorkbenchEnvironment
 		return this.webviewExternalEndpoint.replace('{{uuid}}', '*');
 	}
 
+	get disableTelemetry(): boolean { return false; }
+
 	get verbose(): boolean { return this.payload?.get('verbose') === 'true'; }
 	get logExtensionHostCommunication(): boolean { return this.payload?.get('logExtensionHostCommunication') === 'true'; }
 
@@ -246,8 +252,6 @@ export class BrowserWorkbenchEnvironmentService implements IWorkbenchEnvironment
 
 	get disableUpdates(): boolean { return false; }
 	get extensionsPath(): string | undefined { return undefined; }
-
-	args = { _: [] };
 
 	mainIPCHandle!: string;
 	sharedIPCHandle!: string;

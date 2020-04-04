@@ -6,7 +6,7 @@
 import * as minimist from 'minimist';
 import * as os from 'os';
 import { localize } from 'vs/nls';
-import { ParsedArgs } from 'vs/platform/environment/common/environment';
+import { ParsedArgs } from 'vs/platform/environment/node/environment';
 
 /**
  * This code is also used by standalone cli's. Avoid adding any other dependencies.
@@ -89,8 +89,6 @@ export const OPTIONS: OptionDescriptions<Required<ParsedArgs>> = {
 	'driver': { type: 'string' },
 	'logExtensionHostCommunication': { type: 'boolean' },
 	'skip-getting-started': { type: 'boolean' },
-	'skip-release-notes': { type: 'boolean' },
-	'sticky-quickinput': { type: 'boolean' },
 	'disable-restore-windows': { type: 'boolean' },
 	'disable-telemetry': { type: 'boolean' },
 	'disable-updates': { type: 'boolean' },

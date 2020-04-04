@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { EnvironmentService } from 'vs/platform/environment/node/environmentService';
+import { EnvironmentService, INativeEnvironmentService } from 'vs/platform/environment/node/environmentService';
 import { IWorkbenchEnvironmentService, IEnvironmentConfiguration } from 'vs/workbench/services/environment/common/environmentService';
 import { memoize } from 'vs/base/common/decorators';
 import { URI } from 'vs/base/common/uri';
@@ -13,7 +13,7 @@ import { join } from 'vs/base/common/path';
 import product from 'vs/platform/product/common/product';
 import { INativeWindowConfiguration } from 'vs/platform/windows/node/window';
 
-export interface INativeWorkbenchEnvironmentService extends IWorkbenchEnvironmentService {
+export interface INativeWorkbenchEnvironmentService extends IWorkbenchEnvironmentService, INativeEnvironmentService {
 
 	readonly configuration: INativeEnvironmentConfiguration;
 

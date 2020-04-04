@@ -22,7 +22,8 @@ import { SyncDescriptor } from 'vs/platform/instantiation/common/descriptors';
 import { ILogService, ConsoleLogMainService, MultiplexLogService, getLogLevel } from 'vs/platform/log/common/log';
 import { StateService } from 'vs/platform/state/node/stateService';
 import { IStateService } from 'vs/platform/state/node/state';
-import { IEnvironmentService, ParsedArgs } from 'vs/platform/environment/common/environment';
+import { IEnvironmentService } from 'vs/platform/environment/common/environment';
+import { ParsedArgs } from 'vs/platform/environment/node/environment';
 import { EnvironmentService, xdgRuntimeDir } from 'vs/platform/environment/node/environmentService';
 import { IConfigurationService } from 'vs/platform/configuration/common/configuration';
 import { ConfigurationService } from 'vs/platform/configuration/common/configurationService';
@@ -125,7 +126,7 @@ class CodeMain {
 				const fileService = accessor.get(IFileService);
 				const configurationService = accessor.get(IConfigurationService);
 
-				const mainIpcServer = await this.doStartup(logService, environmentService, lifecycleMainService, instantiationService, true);
+				const mainIpcServer = await this.doStartup(args, logService, environmentService, lifecycleMainService, instantiationService, true);
 
 				bufferLogService.logger = new SpdLogService('main', environmentService.logsPath, bufferLogService.getLevel());
 				once(lifecycleMainService.onWillShutdown)(() => {
@@ -205,7 +206,7 @@ class CodeMain {
 		return instanceEnvironment;
 	}
 
-	private async doStartup(logService: ILogService, environmentService: IEnvironmentService, lifecycleMainService: ILifecycleMainService, instantiationService: IInstantiationService, retry: boolean): Promise<Server> {
+	private async doStartup(args: ParsedArgs, logService: ILogService, environmentService: IEnvironmentService, lifecycleMainService: ILifecycleMainService, instantiationService: IInstantiationService, retry: boolean): Promise<Server> {
 
 		// Try to setup a server for running. If that succeeds it means
 		// we are the first instance to startup. Otherwise it is likely
@@ -261,7 +262,7 @@ class CodeMain {
 					throw error;
 				}
 
-				return this.doStartup(logService, environmentService, lifecycleMainService, instantiationService, false);
+				return this.doStartup(args, logService, environmentService, lifecycleMainService, instantiationService, false);
 			}
 
 			// Tests from CLI require to be the only instance currently
@@ -277,7 +278,7 @@ class CodeMain {
 			// Skip this if we are running with --wait where it is expected that we wait for a while.
 			// Also skip when gathering diagnostics (--status) which can take a longer time.
 			let startupWarningDialogHandle: NodeJS.Timeout | undefined = undefined;
-			if (!environmentService.args.wait && !environmentService.args.status) {
+			if (!args.wait && !args.status) {
 				startupWarningDialogHandle = setTimeout(() => {
 					this.showStartupWarningDialog(
 						localize('secondInstanceNoResponse', "Another instance of {0} is running but not responding", product.nameShort),
@@ -289,7 +290,7 @@ class CodeMain {
 			const launchService = createChannelSender<ILaunchMainService>(client.getChannel('launch'), { disableMarshalling: true });
 
 			// Process Info
-			if (environmentService.args.status) {
+			if (args.status) {
 				return instantiationService.invokeFunction(async accessor => {
 					// Create a diagnostic service connected to the existing shared process
 					const sharedProcessClient = await connect(environmentService.sharedIPCHandle, 'main');
@@ -311,7 +312,7 @@ class CodeMain {
 
 			// Send environment over...
 			logService.trace('Sending env to running instance...');
-			await launchService.start(environmentService.args, process.env as IProcessEnvironment);
+			await launchService.start(args, process.env as IProcessEnvironment);
 
 			// Cleanup
 			client.dispose();
@@ -325,7 +326,7 @@ class CodeMain {
 		}
 
 		// Print --status usage info
-		if (environmentService.args.status) {
+		if (args.status) {
 			logService.warn('Warning: The --status argument can only be used if Code is already running. Please run it again after Code has started.');
 
 			throw new ExpectedError('Terminating...');

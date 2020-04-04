@@ -168,7 +168,7 @@ export function workbenchInstantiationService(overrides?: { textFileService?: (i
 	instantiationService.stub(ICodeEditorService, new CodeEditorService(editorService, themeService));
 	instantiationService.stub(IViewletService, new TestViewletService());
 	instantiationService.stub(IListService, new TestListService());
-	instantiationService.stub(IQuickInputService, new QuickInputService(TestEnvironmentService, configService, instantiationService, keybindingService, contextKeyService, themeService, accessibilityService, layoutService));
+	instantiationService.stub(IQuickInputService, new QuickInputService(configService, instantiationService, keybindingService, contextKeyService, themeService, accessibilityService, layoutService));
 	instantiationService.stub(IStorageKeysSyncRegistryService, new StorageKeysSyncRegistryService());
 
 	return instantiationService;
@@ -261,7 +261,11 @@ export class TestTextFileService extends BrowserTextFileService {
 	}
 }
 
-export const TestEnvironmentService = new BrowserWorkbenchEnvironmentService(Object.create(null));
+class TestEnvironmentServiceWithArgs extends BrowserWorkbenchEnvironmentService {
+	args = [];
+}
+
+export const TestEnvironmentService = new TestEnvironmentServiceWithArgs(Object.create(null));
 
 export class TestProgressService implements IProgressService {
 

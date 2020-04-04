@@ -3,7 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { IEnvironmentService, ParsedArgs, IDebugParams, IExtensionHostDebugParams, BACKUPS } from 'vs/platform/environment/common/environment';
+import { IEnvironmentService, IDebugParams, IExtensionHostDebugParams, BACKUPS } from 'vs/platform/environment/common/environment';
+import { ParsedArgs } from 'vs/platform/environment/node/environment';
 import * as crypto from 'crypto';
 import * as paths from 'vs/base/node/paths';
 import * as os from 'os';
@@ -73,7 +74,11 @@ function getCLIPath(execPath: string, appRoot: string, isBuilt: boolean): string
 	return path.join(appRoot, 'scripts', 'code-cli.sh');
 }
 
-export class EnvironmentService implements IEnvironmentService {
+export interface INativeEnvironmentService extends IEnvironmentService {
+	args: ParsedArgs;
+}
+
+export class EnvironmentService implements INativeEnvironmentService {
 
 	_serviceBrand: undefined;
 
@@ -116,6 +121,9 @@ export class EnvironmentService implements IEnvironmentService {
 
 	@memoize
 	get userDataSyncLogResource(): URI { return URI.file(path.join(this.logsPath, 'userDataSync.log')); }
+
+	@memoize
+	get sync(): 'on' | 'off' { return this.args.sync === 'off' ? 'off' : 'on'; }
 
 	@memoize
 	get machineSettingsResource(): URI { return resources.joinPath(URI.file(path.join(this.userDataPath, 'Machine')), 'settings.json'); }
@@ -252,7 +260,7 @@ export class EnvironmentService implements IEnvironmentService {
 
 	get isBuilt(): boolean { return !process.env['VSCODE_DEV']; }
 	get verbose(): boolean { return !!this._args.verbose; }
-	get log(): string | undefined { return this._args.log; }
+	get logLevel(): string | undefined { return this._args.log; }
 
 	@memoize
 	get mainIPCHandle(): string { return getIPCHandle(this.userDataPath, 'main'); }
@@ -271,6 +279,8 @@ export class EnvironmentService implements IEnvironmentService {
 
 	get driverHandle(): string | undefined { return this._args['driver']; }
 	get driverVerbose(): boolean { return !!this._args['driver-verbose']; }
+
+	get disableTelemetry(): boolean { return !!this._args['disable-telemetry']; }
 
 	constructor(private _args: ParsedArgs, private _execPath: string) {
 		if (!process.env['VSCODE_LOGS']) {

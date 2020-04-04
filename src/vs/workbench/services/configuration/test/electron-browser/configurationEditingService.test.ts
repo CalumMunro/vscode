@@ -49,7 +49,6 @@ class TestEnvironmentService extends NativeWorkbenchEnvironmentService {
 	}
 
 	get appSettingsHome() { return this._appSettingsHome; }
-
 }
 
 suite('ConfigurationEditingService', () => {
