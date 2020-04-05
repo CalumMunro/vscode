@@ -99,6 +99,7 @@ export interface INativeEnvironmentService extends IEnvironmentService {
 
 	appSettingsHome: URI;
 	userDataPath: string;
+	userHome: URI;
 
 	globalStorageHome: string;
 	workspaceStorageHome: string;
@@ -123,7 +124,7 @@ export class EnvironmentService implements INativeEnvironmentService {
 	readonly logsPath: string;
 
 	@memoize
-	get userHome(): string { return os.homedir(); }
+	get userHome(): URI { return URI.file(os.homedir()); }
 
 	@memoize
 	get userDataPath(): string {
@@ -175,7 +176,7 @@ export class EnvironmentService implements INativeEnvironmentService {
 			return URI.file(path.join(vscodePortable, 'argv.json'));
 		}
 
-		return URI.file(path.join(this.userHome, product.dataFolderName, 'argv.json'));
+		return resources.joinPath(this.userHome, product.dataFolderName, 'argv.json');
 	}
 
 	@memoize
@@ -224,7 +225,7 @@ export class EnvironmentService implements INativeEnvironmentService {
 			return path.join(vscodePortable, 'extensions');
 		}
 
-		return path.join(this.userHome, product.dataFolderName, 'extensions');
+		return resources.joinPath(this.userHome, product.dataFolderName, 'extensions').fsPath;
 	}
 
 	@memoize

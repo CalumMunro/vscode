@@ -23,8 +23,6 @@ export interface IEnvironmentService {
 
 	_serviceBrand: undefined;
 
-	userHome: string;
-
 	// user roaming data
 	userRoamingDataHome: URI;
 	settingsResource: URI;
@@ -39,6 +37,8 @@ export interface IEnvironmentService {
 	sync: 'on' | 'off';
 
 	backupHome: URI;
+
+	userHome?: URI;
 
 	untitledWorkspacesHome: URI;
 

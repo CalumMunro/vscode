@@ -250,8 +250,6 @@ export class BrowserWorkbenchEnvironmentService implements IWorkbenchEnvironment
 
 	//#region TODO MOVE TO NODE LAYER
 
-	userHome!: string;
-
 	serviceMachineIdResource?: URI;
 
 	//#endregion
