@@ -21,9 +21,14 @@ export const BACKUPS = 'Backups';
 
 export interface IEnvironmentService {
 
+	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	// NOTE: DO NOT ADD ANY OTHER PROPERTY INTO THE COLLECTION HERE
+	// UNLESS THIS PROPERTY IS SUPPORTED BOTH IN WEB AND DESKTOP!!!!
+	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 	_serviceBrand: undefined;
 
-	// user roaming data
+	// --- user roaming data
 	userRoamingDataHome: URI;
 	settingsResource: URI;
 	keybindingsResource: URI;
@@ -31,17 +36,13 @@ export interface IEnvironmentService {
 	argvResource: URI;
 	snippetsHome: URI;
 
-	// sync resources
+	// --- settings sync
 	userDataSyncLogResource: URI;
 	userDataSyncHome: URI;
 	sync: 'on' | 'off';
 
-	backupHome: URI;
-
-	userHome?: URI;
-
-	untitledWorkspacesHome: URI;
-
+	// --- extension development
+	debugExtensionHost: IExtensionHostDebugParams;
 	isExtensionDevelopment: boolean;
 	disableExtensions: boolean | string[];
 	extensionDevelopmentLocationURI?: URI[];
@@ -49,15 +50,25 @@ export interface IEnvironmentService {
 	extensionEnabledProposedApi?: string[];
 	logExtensionHostCommunication?: boolean;
 
-	debugExtensionHost: IExtensionHostDebugParams;
-
-	isBuilt: boolean;
-
+	// --- logging
 	logsPath: string;
 	logLevel?: string;
 	verbose: boolean;
+	isBuilt: boolean;
 
+	// --- data paths
+	backupHome: URI;
+	userHome?: URI;
+	untitledWorkspacesHome: URI;
+
+	// --- misc
+	disableTelemetry: boolean;
+
+	// TODO@sandeep move into node layer
 	serviceMachineIdResource?: URI;
 
-	disableTelemetry: boolean;
+	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	// NOTE: DO NOT ADD ANY OTHER PROPERTY INTO THE COLLECTION HERE
+	// UNLESS THIS PROPERTY IS SUPPORTED BOTH IN WEB AND DESKTOP!!!!
+	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 }

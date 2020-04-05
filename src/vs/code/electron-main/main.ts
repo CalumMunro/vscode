@@ -23,7 +23,7 @@ import { ILogService, ConsoleLogMainService, MultiplexLogService, getLogLevel } 
 import { StateService } from 'vs/platform/state/node/stateService';
 import { IStateService } from 'vs/platform/state/node/state';
 import { IEnvironmentService } from 'vs/platform/environment/common/environment';
-import { ParsedArgs } from 'vs/platform/environment/node/environment';
+import { ParsedArgs } from 'vs/platform/environment/node/argv';
 import { EnvironmentService, xdgRuntimeDir, INativeEnvironmentService } from 'vs/platform/environment/node/environmentService';
 import { IConfigurationService } from 'vs/platform/configuration/common/configuration';
 import { ConfigurationService } from 'vs/platform/configuration/common/configurationService';

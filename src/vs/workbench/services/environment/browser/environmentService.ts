@@ -247,10 +247,4 @@ export class BrowserWorkbenchEnvironmentService implements IWorkbenchEnvironment
 
 		return extensionHostDebugEnvironment;
 	}
-
-	//#region TODO MOVE TO NODE LAYER
-
-	serviceMachineIdResource?: URI;
-
-	//#endregion
 }

@@ -13,7 +13,7 @@ import { NativeTextFileEditor } from 'vs/workbench/contrib/files/electron-browse
 import { CommandsRegistry } from 'vs/platform/commands/common/commands';
 import * as os from 'os';
 import * as fs from 'fs';
-import * as path from 'path';
+import { join } from 'vs/base/common/path';
 
 // Register file editor
 Registry.as<IEditorRegistry>(EditorExtensions.Editors).registerEditor(
@@ -29,5 +29,5 @@ Registry.as<IEditorRegistry>(EditorExtensions.Editors).registerEditor(
 
 // Register mkdtemp command
 CommandsRegistry.registerCommand('mkdtemp', function () {
-	return fs.promises.mkdtemp(path.join(os.tmpdir(), 'vscodetmp-'));
+	return fs.promises.mkdtemp(join(os.tmpdir(), 'vscodetmp-'));
 });
